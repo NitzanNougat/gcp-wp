@@ -1,6 +1,3 @@
-# =========================================
-# Shared Variables
-# =========================================
 
 # Project and Region Configuration
 variable "project_id" {
@@ -81,7 +78,7 @@ variable "min_node_count" {
 }
 
 variable "max_node_count" {
-  description = "Maximum number of nodes nodes per zonein the GKE node pool."
+  description = "Maximum number of nodes nodes per zone in the GKE node pool."
   type        = number
   default     = 3
 }
@@ -97,73 +94,5 @@ variable "db_version" {
   description = "The database version for the Cloud SQL instance."
   type        = string
   default     = "MYSQL_8_0"
-}
-
-# Alerting Configuration
-variable "alert_email" {
-  description = "Email address to send alert notifications."
-  type        = string
-}
-
-# =========================================
-# Kubernetes-Specific Variables
-# =========================================
-
-# Namespace Configuration
-variable "namespace" {
-  description = "Kubernetes namespace."
-  type        = string
-  default     = "wordpress-app"
-}
-
-# WordPress Deployment Configuration
-variable "wordpress_image" {
-  description = "Docker image for WordPress."
-  type        = string
-  default     = "wordpress"
-}
-
-variable "wordpress_tag" {
-  description = "Image tag for WordPress."
-  type        = string
-  default     = "latest"
-}
-
-variable "replica_count" {
-  description = "Initial number of WordPress pod replicas."
-  type        = number
-  default     = 2
-}
-
-# Horizontal Pod Autoscaler Configuration
-variable "hpa_min_replicas" {
-  description = "Minimum number of replicas for Horizontal Pod Autoscaler."
-  type        = number
-  default     = 2
-}
-
-variable "hpa_max_replicas" {
-  description = "Maximum number of replicas for Horizontal Pod Autoscaler."
-  type        = number
-  default     = 10
-}
-
-variable "hpa_cpu_utilization" {
-  description = "Target average CPU utilization for HPA."
-  type        = number
-  default     = 70
-}
-
-# PVC Storage Configuration
-variable "pvc_storage_class" {
-  description = "Storage class for Persistent Volume Claims."
-  type        = string
-  default     = "standard"
-}
-
-variable "pvc_storage_size" {
-  description = "Storage size for Persistent Volume Claim (Gi)."
-  type        = string
-  default     = "20Gi"
 }
 

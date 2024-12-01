@@ -397,6 +397,7 @@ resource "kubernetes_storage_class" "nfs" {
 
   storage_provisioner = "kubernetes.io/no-provisioner"
   reclaim_policy     = "Retain"
+  depends_on = [kubernetes_deployment.nfs_server,kubernetes_service.nfs_server,kubernetes_persistent_volume_claim.nfs_server_storage]
 }
 
 # PVC for NFS Server Storage
@@ -416,7 +417,6 @@ resource "kubernetes_persistent_volume_claim" "nfs_server_storage" {
     storage_class_name = var.pvc_storage_class
   }
 
-  depends_on = [kubernetes_namespace.wordpress]
 }
 # Create Kubernetes Namespace
 resource "kubernetes_namespace" "wordpress" {
@@ -463,7 +463,6 @@ resource "kubernetes_persistent_volume" "wordpress_shared" {
     storage_class_name = kubernetes_storage_class.nfs.metadata[0].name
   }
 
-  depends_on = [kubernetes_service.nfs_server]
 }
 
 # PVC for WordPress shared storage

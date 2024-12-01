@@ -55,6 +55,7 @@ resource "google_compute_network" "vpc_network" {
   name                    = "${var.prefix}-vpc"
   auto_create_subnetworks = false
   project                 = var.project_id
+
   depends_on = [google_project_service.required_services]
 }
 
@@ -66,7 +67,6 @@ resource "google_compute_subnetwork" "private_subnet" {
   region                   = var.region
   private_ip_google_access = true
   project                  = var.project_id
-
 }
 
 
@@ -145,11 +145,17 @@ resource "google_compute_firewall" "allow_sql_access_ingress" {
 
 # Create the GKE cluster
 resource "google_container_cluster" "primary" {
+  timeouts {
+    create = "20m"
+    update = "20m"
+    delete = "20m"
+  }
   name     = "${var.prefix}-cluster"
   location = var.region
 
   network    = google_compute_network.vpc_network.name
   subnetwork = google_compute_subnetwork.private_subnet.name
+  
 
   remove_default_node_pool = true
   initial_node_count       = 1
@@ -178,7 +184,7 @@ resource "google_container_node_pool" "primary_nodes" {
     machine_type = var.machine_type
     # Tags to apply firewall rules
     tags         = [local.firewall_gke_tag]
-    disk_type    = var.storage_class
+    disk_type    = var.disk_type
     disk_size_gb = var.disk_size_gb
 
   }
@@ -247,9 +253,9 @@ resource "google_service_networking_connection" "private_vpc_connection" {
 # Cloud SQL Instance
 resource "google_sql_database_instance" "mysql_instance" {
   timeouts {
-    create = "30m"
-    update = "30m"
-    delete = "30m"
+    create = "40m"
+    update = "40m"
+    delete = "40m"
   }
   name             = "${var.prefix}-sql-instance"
   project          = var.project_id
@@ -421,7 +427,7 @@ resource "kubernetes_persistent_volume_claim" "nfs_server_storage" {
 # Create Kubernetes Namespace
 resource "kubernetes_namespace" "wordpress" {
   metadata {
-    name = "wordpress-app"
+    name = var.namespace
   }
 }
 
@@ -757,13 +763,11 @@ resource "kubernetes_ingress_v1" "wordpress_ingress" {
     kubernetes_service.wordpress
   ]
 }
+#--------------------------------------------alerts part
 
-# Create static IP for ingress
-resource "google_compute_global_address" "wordpress_ip2" {
-  name    = "${var.prefix}-ip2"
-  project = var.project_id
-}
-# Outputs for Networking Stage
+
+# should be in outputs.tf
+# Outputs for Networking Stage 
 
 output "vpc_network_name" {
   description = "Name of the created VPC network."
@@ -834,62 +838,17 @@ output "db_connection_name" {
   value       = google_sql_database_instance.mysql_instance.connection_name
 }
 
-# output "host" {
-#   value = "https://${google_container_cluster.primary.endpoint}"
-# }
-
-# output "token" {
-#   value = data.google_client_config.default.access_token
-#   sensitive = true
-# }
-
-# output "cert" {
-#   value = data.google_container_cluster.primary.master_auth[0].cluster_ca_certificate
-# }
-
-# output "db_dns" {
-#   value=google_sql_database_instance.mysql_instance.dns_name
-# }
+output "wordpres_url" {
+  description = "Url for the Wordpress website"
+  value = "https://${google_compute_global_address.wordpress_ip.address}/"
+}
 
 output "db_ip" {
   value=google_sql_database_instance.mysql_instance.private_ip_address
 }
 
-# output "db_pubip" {
-#   value=google_sql_database_instance.mysql_instance.public_ip_address
-# }
 
-# output "db_link" {
-#   value = google_sql_database_instance.mysql_instance.self_link
-# }
-
-# Simple data source to get the ingress IP
-# data "kubernetes_ingress_v1" "wordpress_ingress" {
-#   metadata {
-#     name      = kubernetes_ingress_v1.wordpress_ingress_http.metadata[0].name
-#     namespace = kubernetes_namespace.wordpress.metadata[0].name
-#   }
-#   depends_on = [kubernetes_ingress_v1.wordpress_ingress_http]
-# }
-
-# Output the URL
-# output "wordpress_url" {
-#   description = "The URL of the WordPress application"
-#   value       = "http://${data.kubernetes_ingress_v1.wordpress_ingress.status[0].load_balancer[0].ingress[0].ip}"
-# }
-
-# output "ingress_ip" {
-#   value = kubernetes_ingress_v1.wordpress_ingress_http.status[0].load_balancer[0].ingress[0].ip
-#   description = "The IP address of the Ingress for accessing the WordPress application"
-# }
-
-
-# output "ingress_hostname" {
-#   value = kubernetes_ingress_v1.wordpress_ingress_http.status[0].load_balancer[0].ingress[0].ip
-#   description = "The IP address of the Ingress for accessing the WordPress application"
-# }
-
-# terraform.tf
+#would be in terraform.tf
 
 terraform {
   required_version = "~> 1.9.0"
@@ -934,11 +893,13 @@ provider "kubernetes" {
 
 
 
-# variables.tf
+# would be in variables.tf
 
 # ==============================
 # Project and Region Configuration
 # ==============================
+
+
 
 variable "project_id" {
   description = "GCP project ID where resources will be created."
@@ -961,6 +922,10 @@ variable "prefix" {
   default     = "wordpress"
 }
 
+variable "alert_email" {
+  description = "Email address to send alert notifications."
+  type        = string
+}
 # ==============================
 # VPC and Subnet Configuration
 # ==============================
@@ -1001,12 +966,24 @@ variable "tags" {
 # ==============================
 # (Optional) Additional Variables for Future Stages
 # ==============================
+variable "namespace" {
+  description = "Kubernetes namespace"
+  type        = string
+  default     = "wordpress-app"
+}
 
 # Node Pool Configuration
 variable "machine_type" {
   description = "Machine type for GKE nodes."
   type        = string
   default     = "e2-medium"
+}
+
+# Storage Configuration for nodes
+variable "disk_type" {
+  description = "Storage class for Persistent Volumes."
+  type        = string
+  default     = "pd-balanced"
 }
 
 variable "disk_size_gb" {
@@ -1027,18 +1004,7 @@ variable "max_node_count" {
   default     = 3
 }
 
-# Storage Configuration
-variable "storage_class" {
-  description = "Storage class for Persistent Volumes."
-  type        = string
-  default     = "pd-balanced"
-}
 
-variable "storage_size" {
-  description = "Storage size for Persistent Volume (Gi)."
-  type        = string
-  default     = "20Gi"
-}
 
 # Kubernetes Deployment Configuration
 variable "wordpress_image" {

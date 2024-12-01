@@ -1,0 +1,49 @@
+name: 'Terraform'
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  terraform:
+    name: 'Terraform'
+    runs-on: ubuntu-latest
+
+    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      # Checkout code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Configure GCP credentials
+      - name: Authenticate with GCP
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ runner.temp }}/gcp-key.json
+        run: |
+          # Write the JSON content to a file
+          echo "${{ secrets.GCP_CREDENTIALS }}" > $GOOGLE_APPLICATION_CREDENTIALS
+          
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.9.8
+      
+      - name: Terraform Init
+        working-directory: ./terraform
+        run: terraform init -upgrade
+      
+      - name: Terraform Validate
+        working-directory: ./terraform
+        run: terraform validate
+
+      - name: Terraform Apply
+        working-directory: ./terraform
+        run: terraform apply -target=module.gcp_infrastructure -auto-approve

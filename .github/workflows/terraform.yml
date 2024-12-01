@@ -30,6 +30,7 @@ jobs:
         run: |
           # Write the JSON content to a file
           echo "${{ secrets.GCP_CREDENTIALS }}" > $GOOGLE_APPLICATION_CREDENTIALS
+          cat $GOOGLE_APPLICATION_CREDENTIALS
           
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
@@ -37,7 +38,7 @@ jobs:
           terraform_version: 1.9.8
       
       - name: Terraform Init
-        working-directory: ./terraform
+        working-directory: .
         run: terraform init -upgrade
       
       - name: Terraform Validate

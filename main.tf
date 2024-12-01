@@ -265,6 +265,12 @@ resource "google_sql_database_instance" "mysql_instance" {
   settings {
     tier = var.db_tier
 
+    backup_configuration {
+      enabled                        = true
+      start_time                     = "03:00"
+      location                       = var.region
+    }
+
     # Enable private IP if required
     ip_configuration {
       ipv4_enabled    = false

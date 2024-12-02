@@ -29,6 +29,7 @@ jobs:
           GOOGLE_APPLICATION_CREDENTIALS: ${{ runner.temp }}/gcp-key.json
         run: |
           echo "${{ secrets.GCP_CREDENTIALS }}" > $GOOGLE_APPLICATION_CREDENTIALS
+          echo "GOOGLE_APPLICATION_CREDENTIALS=$GOOGLE_APPLICATION_CREDENTIALS" >> $GITHUB_ENV
           ls -l $GOOGLE_APPLICATION_CREDENTIALS
           
       - name: Setup Terraform
@@ -38,13 +39,12 @@ jobs:
 
       - name: Check Credentials
         working-directory: .
-        run: env | grep GOOGLE_APPLICATION_CREDENTIALS
+        run: |
+          env | grep GOOGLE_APPLICATION_CREDENTIALS
         
       - name: Terraform Init
         working-directory: .
-        run: |
-          ls -l $GOOGLE_APPLICATION_CREDENTIALS
-          terraform init -upgrade
+        run: terraform init -upgrade
       
       - name: Terraform Validate
         working-directory: .

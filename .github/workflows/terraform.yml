@@ -17,6 +17,8 @@ jobs:
     defaults:
       run:
         shell: bash
+    env:
+      GOOGLE_APPLICATION_CREDENTIALS: ${{ runner.temp }}/gcp-key.json
 
     steps:
       # Checkout code
@@ -25,8 +27,6 @@ jobs:
 
       # Configure GCP credentials
       - name: Authenticate with GCP
-        env:
-          GOOGLE_APPLICATION_CREDENTIALS: ${{ runner.temp }}/gcp-key.json
         run: |
           # Write the JSON content to a file
           echo "${{ secrets.GCP_CREDENTIALS }}" > $GOOGLE_APPLICATION_CREDENTIALS

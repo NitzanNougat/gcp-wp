@@ -31,7 +31,6 @@ jobs:
           # Write the JSON content to a file
           echo "${{ secrets.GCP_CREDENTIALS }}" > $GOOGLE_APPLICATION_CREDENTIALS
           ls -l $GOOGLE_APPLICATION_CREDENTIALS
-          cat $GOOGLE_APPLICATION_CREDENTIALS | jq .type # Safely check the key type
           
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2

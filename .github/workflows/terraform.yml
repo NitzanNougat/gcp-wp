@@ -42,9 +42,9 @@ jobs:
         run: terraform init -upgrade
       
       - name: Terraform Validate
-        working-directory: ./terraform
+        working-directory: .
         run: terraform validate
 
       - name: Terraform Apply
-        working-directory: ./terraform
+        working-directory: .
         run: terraform apply -target=module.gcp_infrastructure -auto-approve

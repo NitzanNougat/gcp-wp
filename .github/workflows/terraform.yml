@@ -23,14 +23,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Configure GCP credentials
-      - name: Authenticate with GCP
-        env:
-          GOOGLE_APPLICATION_CREDENTIALS: ${{ runner.temp }}/gcp-key.json
-        run: |
-          echo "${{ secrets.GCP_CREDENTIALS }}" > $GOOGLE_APPLICATION_CREDENTIALS
-          echo "GOOGLE_APPLICATION_CREDENTIALS=$GOOGLE_APPLICATION_CREDENTIALS" >> $GITHUB_ENV
-          ls -l $GOOGLE_APPLICATION_CREDENTIALS
+      # # Configure GCP credentials
+      # - name: Authenticate with GCP
+      #   env:
+      #     GOOGLE_APPLICATION_CREDENTIALS: ${{ runner.temp }}/gcp-key.json
+      #   run: |
+      #     echo "${{ secrets.GCP_CREDENTIALS }}" > $GOOGLE_APPLICATION_CREDENTIALS
+      #     echo "GOOGLE_APPLICATION_CREDENTIALS=$GOOGLE_APPLICATION_CREDENTIALS" >> $GITHUB_ENV
+      #     ls -l $GOOGLE_APPLICATION_CREDENTIALS
           
           
       - name: Setup Terraform
@@ -38,20 +38,24 @@ jobs:
         with:
           terraform_version: 1.9.8
 
-      - name: Check Credentials
-        working-directory: .
-        run: |
-          cat $GOOGLE_APPLICATION_CREDENTIALS
-          env | grep GOOGLE_APPLICATION_CREDENTIALS
+      # - name: Check Credentials
+      #   working-directory: .
+      #   run: |
+      #     cat $GOOGLE_APPLICATION_CREDENTIALS
+      #     env | grep GOOGLE_APPLICATION_CREDENTIALS
         
       - name: Terraform Init
         working-directory: .
         run: terraform init -upgrade
+        env:
+          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }} 
       
       - name: Terraform Validate
         working-directory: .
         run: terraform validate
+        env:
+          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }} 
 
-      - name: Terraform Apply
-        working-directory: .
-        run: terraform apply -target=module.gcp_infrastructure -auto-approve
+      # - name: Terraform Apply
+      #   working-directory: .
+      #   run: terraform apply -target=module.gcp_infrastructure -auto-approve

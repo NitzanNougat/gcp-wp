@@ -28,11 +28,9 @@ jobs:
         env:
           GOOGLE_APPLICATION_CREDENTIALS: ${{ runner.temp }}/gcp-key.json
         run: |
-          # Create a temporary directory for the credentials file
-          export TEMP_GCP_KEY=$(mktemp)
-          echo "${{ secrets.GCP_CREDENTIALS }}" > $TEMP_GCP_KEY
-          echo "GOOGLE_APPLICATION_CREDENTIALS=$TEMP_GCP_KEY" >> $GITHUB_ENV
-          ls -l $TEMP_GCP_KEY
+          echo "${{ secrets.GCP_CREDENTIALS }}" > $GOOGLE_APPLICATION_CREDENTIALS
+          echo "GOOGLE_APPLICATION_CREDENTIALS=$GOOGLE_APPLICATION_CREDENTIALS" >> $GITHUB_ENV
+          ls -l $GOOGLE_APPLICATION_CREDENTIALS
           
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2

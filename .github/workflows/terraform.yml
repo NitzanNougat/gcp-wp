@@ -56,6 +56,7 @@ jobs:
         run: terraform validate
 
 
-      # - name: Terraform Apply
-      #   working-directory: .
-      #   run: terraform apply -target=module.gcp_infrastructure -auto-approve
+      - name: Terraform Apply
+        working-directory: .
+        timeout-minutes: 60
+        run: terraform apply -target=module.gcp_infrastructure -auto-approve -timeout=50m

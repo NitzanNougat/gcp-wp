@@ -36,7 +36,11 @@ jobs:
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: 1.9.8
-      
+
+      - name: Check Credentials
+        working-directory: .
+        run: env | grep GOOGLE_APPLICATION_CREDENTIALS
+        
       - name: Terraform Init
         working-directory: .
         run: terraform init -upgrade

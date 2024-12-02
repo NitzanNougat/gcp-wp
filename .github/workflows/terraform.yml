@@ -48,13 +48,13 @@ jobs:
         working-directory: .
         run: terraform init -upgrade
         env:
-          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }} 
+          GOOGLE_CREDENTIALS: ${{ secrets.GCP_CREDENTIALS }} 
       
       - name: Terraform Validate
         working-directory: .
         run: terraform validate
         env:
-          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }} 
+          GOOGLE_CREDENTIALS: ${{ secrets.GCP_CREDENTIALS }} 
 
       # - name: Terraform Apply
       #   working-directory: .

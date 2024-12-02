@@ -12,13 +12,14 @@ jobs:
   terraform:
     name: 'Terraform'
     runs-on: ubuntu-latest
+    env:
+      GOOGLE_APPLICATION_CREDENTIALS: ${{ runner.temp }}/gcp-key.json
 
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
       run:
         shell: bash
-    env:
-      GOOGLE_APPLICATION_CREDENTIALS: ${{ runner.temp }}/gcp-key.json
+
 
     steps:
       # Checkout code

@@ -12,6 +12,8 @@ jobs:
   terraform:
     name: 'Terraform'
     runs-on: ubuntu-latest
+    env:
+      GOOGLE_CREDENTIALS: ${{ secrets.GCP_CREDENTIALS }} 
 
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
@@ -47,14 +49,12 @@ jobs:
       - name: Terraform Init
         working-directory: .
         run: terraform init -upgrade
-        env:
-          GOOGLE_CREDENTIALS: ${{ secrets.GCP_CREDENTIALS }} 
+
       
       - name: Terraform Validate
         working-directory: .
         run: terraform validate
-        env:
-          GOOGLE_CREDENTIALS: ${{ secrets.GCP_CREDENTIALS }} 
+
 
       # - name: Terraform Apply
       #   working-directory: .

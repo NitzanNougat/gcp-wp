@@ -22,17 +22,17 @@ output "kubernetes_namespace" {
 
 ## Deployment Outputs
 
-# # Name of the WordPress Deployment
-# output "wordpress_deployment_name" {
-#   description = "Name of the WordPress Deployment."
-#   value       = kubernetes_deployment.wordpress.metadata[0].name
-# }
+# Name of the WordPress Deployment
+output "wordpress_deployment_name" {
+  description = "Name of the WordPress Deployment."
+  value       = kubernetes_deployment.wordpress.metadata[0].name
+}
 
-# # Replica count of the WordPress Deployment
-# output "wordpress_deployment_replicas" {
-#   description = "Replica count of the WordPress Deployment."
-#   value       = kubernetes_deployment.wordpress.spec[0].replicas
-# }
+# Replica count of the WordPress Deployment
+output "wordpress_deployment_replicas" {
+  description = "Replica count of the WordPress Deployment."
+  value       = kubernetes_deployment.wordpress.spec[0].replicas
+}
 
 ## Service Outputs
 
@@ -84,29 +84,29 @@ output "wordpress_pvc_storage_class" {
 
 ## Horizontal Pod Autoscaler Outputs
 
-# # Name of the Horizontal Pod Autoscaler
-# output "wordpress_hpa_name" {
-#   description = "Name of the Horizontal Pod Autoscaler."
-#   value       = kubernetes_horizontal_pod_autoscaler.wordpress_hpa.metadata[0].name
-# }
+# Name of the Horizontal Pod Autoscaler
+output "wordpress_hpa_name" {
+  description = "Name of the Horizontal Pod Autoscaler."
+  value       = kubernetes_horizontal_pod_autoscaler.wordpress_hpa.metadata[0].name
+}
 
-# # Minimum replicas managed by the HPA
-# output "wordpress_hpa_min_replicas" {
-#   description = "Minimum replicas managed by the Horizontal Pod Autoscaler."
-#   value       = kubernetes_horizontal_pod_autoscaler.wordpress_hpa.spec[0].min_replicas
-# }
+# Minimum replicas managed by the HPA
+output "wordpress_hpa_min_replicas" {
+  description = "Minimum replicas managed by the Horizontal Pod Autoscaler."
+  value       = kubernetes_horizontal_pod_autoscaler.wordpress_hpa.spec[0].min_replicas
+}
 
-# # Maximum replicas managed by the HPA
-# output "wordpress_hpa_max_replicas" {
-#   description = "Maximum replicas managed by the Horizontal Pod Autoscaler."
-#   value       = kubernetes_horizontal_pod_autoscaler.wordpress_hpa.spec[0].max_replicas
-# }
+# Maximum replicas managed by the HPA
+output "wordpress_hpa_max_replicas" {
+  description = "Maximum replicas managed by the Horizontal Pod Autoscaler."
+  value       = kubernetes_horizontal_pod_autoscaler.wordpress_hpa.spec[0].max_replicas
+}
 
-# # Target CPU utilization percentage of the HPA
-# output "wordpress_hpa_target_cpu_utilization" {
-#   description = "Target CPU utilization percentage for the Horizontal Pod Autoscaler."
-#   value       = kubernetes_horizontal_pod_autoscaler.wordpress_hpa.spec[0].target_cpu_utilization_percentage
-# }
+# Target CPU utilization percentage of the HPA
+output "wordpress_hpa_target_cpu_utilization" {
+  description = "Target CPU utilization percentage for the Horizontal Pod Autoscaler."
+  value       = kubernetes_horizontal_pod_autoscaler.wordpress_hpa.spec[0].target_cpu_utilization_percentage
+}
 
 ## Ingress Outputs
 

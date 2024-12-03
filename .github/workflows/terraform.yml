@@ -17,6 +17,7 @@ jobs:
       TF_VAR_project_id: ${{ vars.TF_VAR_project_id }}
       TF_VAR_region: ${{ vars.TF_VAR_region }}
       TF_VAR_alert_email: ${{ vars.TF_VAR_alert_email }}
+      TF_VAR_prefix: "gcp-wordpress"
 
 
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest

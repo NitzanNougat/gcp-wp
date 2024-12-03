@@ -22,17 +22,17 @@ output "kubernetes_namespace" {
 
 ## Deployment Outputs
 
-# Name of the WordPress Deployment
-output "wordpress_deployment_name" {
-  description = "Name of the WordPress Deployment."
-  value       = kubernetes_deployment.wordpress.metadata[0].name
-}
+# # Name of the WordPress Deployment
+# output "wordpress_deployment_name" {
+#   description = "Name of the WordPress Deployment."
+#   value       = kubernetes_deployment.wordpress.metadata[0].name
+# }
 
-# Replica count of the WordPress Deployment
-output "wordpress_deployment_replicas" {
-  description = "Replica count of the WordPress Deployment."
-  value       = kubernetes_deployment.wordpress.spec[0].replicas
-}
+# # Replica count of the WordPress Deployment
+# output "wordpress_deployment_replicas" {
+#   description = "Replica count of the WordPress Deployment."
+#   value       = kubernetes_deployment.wordpress.spec[0].replicas
+# }
 
 ## Service Outputs
 

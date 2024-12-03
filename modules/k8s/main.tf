@@ -269,6 +269,10 @@ resource "kubernetes_deployment" "wordpress" {
               define('WP_SITEURL', 'http://' . $_SERVER['HTTP_HOST']);
             EOT
           }
+          env {
+            name = "APACHE_SERVER_NAME"
+            value = "wordpress"
+          }
 
           port {
             container_port = 80

@@ -2,6 +2,8 @@
 # GCP Outputs
 # =========================================
 
+# ./modules/gcp/outputs.tf
+
 ## VPC Network Outputs
 
 # Name of the created VPC network

@@ -1,3 +1,8 @@
+# =========================================
+# GCP Variables
+# =========================================
+
+# ./modules/gcp/variables.tf
 
 # Project and Region Configuration
 variable "project_id" {

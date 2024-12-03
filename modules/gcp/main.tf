@@ -1,6 +1,9 @@
 
+# =========================================
+# GCP Main
+# =========================================
 
-
+# ./modules/gcp/main.tf
 
 # Locals Block
 locals {
@@ -14,9 +17,9 @@ locals {
     "monitoring.googleapis.com",
     "servicenetworking.googleapis.com",
     "file.googleapis.com",
-    "cloudtrace.googleapis.com",            # Cloud Trace API
-    "clouderrorreporting.googleapis.com",   # Error Reporting API
-    "cloudprofiler.googleapis.com",         # Cloud Profiler API
+    "cloudtrace.googleapis.com",           
+    "clouderrorreporting.googleapis.com",   
+    "cloudprofiler.googleapis.com",         
   ]
 
   # Firewall tags

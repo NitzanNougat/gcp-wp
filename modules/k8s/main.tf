@@ -193,139 +193,139 @@ resource "kubernetes_persistent_volume_claim" "wordpress_shared" {
 
 
 
-resource "kubernetes_deployment" "wordpress" {
-  metadata {
-    name      = "wordpress"
-    namespace = kubernetes_namespace.wordpress.metadata[0].name
-    labels = {
-      app = "wordpress"
-    }
-  }
+# resource "kubernetes_deployment" "wordpress" {
+#   metadata {
+#     name      = "wordpress"
+#     namespace = kubernetes_namespace.wordpress.metadata[0].name
+#     labels = {
+#       app = "wordpress"
+#     }
+#   }
 
-  spec {
-    replicas = var.hpa_min_replicas
+#   spec {
+#     replicas = var.hpa_min_replicas
 
-    selector {
-      match_labels = {
-        app = "wordpress"
-      }
-    }
+#     selector {
+#       match_labels = {
+#         app = "wordpress"
+#       }
+#     }
 
-    template {
-      metadata {
-        labels = {
-          app = "wordpress"
-        }
-      }
+#     template {
+#       metadata {
+#         labels = {
+#           app = "wordpress"
+#         }
+#       }
 
-      spec {
-        container {
-          name  = "wordpress"
-          image = "wordpress:latest"
+#       spec {
+#         container {
+#           name  = "wordpress"
+#           image = "wordpress:latest"
 
-          env {
-            name = "WORDPRESS_DB_HOST"
-            value_from {
-              secret_key_ref {
-                name = kubernetes_secret.db_credentials.metadata[0].name
-                key  = "DB_HOST"
-              }
-            }
-          }
+#           env {
+#             name = "WORDPRESS_DB_HOST"
+#             value_from {
+#               secret_key_ref {
+#                 name = kubernetes_secret.db_credentials.metadata[0].name
+#                 key  = "DB_HOST"
+#               }
+#             }
+#           }
 
-          env {
-            name = "WORDPRESS_DB_USER"
-            value_from {
-              secret_key_ref {
-                name = kubernetes_secret.db_credentials.metadata[0].name
-                key  = "DB_USER"
-              }
-            }
-          }
+#           env {
+#             name = "WORDPRESS_DB_USER"
+#             value_from {
+#               secret_key_ref {
+#                 name = kubernetes_secret.db_credentials.metadata[0].name
+#                 key  = "DB_USER"
+#               }
+#             }
+#           }
 
-          env {
-            name = "WORDPRESS_DB_PASSWORD"
-            value_from {
-              secret_key_ref {
-                name = kubernetes_secret.db_credentials.metadata[0].name
-                key  = "DB_PASSWORD"
-              }
-            }
-          }
+#           env {
+#             name = "WORDPRESS_DB_PASSWORD"
+#             value_from {
+#               secret_key_ref {
+#                 name = kubernetes_secret.db_credentials.metadata[0].name
+#                 key  = "DB_PASSWORD"
+#               }
+#             }
+#           }
 
-          env {
-            name = "WORDPRESS_DB_NAME"
-            value_from {
-              secret_key_ref {
-                name = kubernetes_secret.db_credentials.metadata[0].name
-                key  = "DB_NAME"
-              }
-            }
-          }
-          env {
-            name = "WORDPRESS_CONFIG_EXTRA"
-            value = <<-EOT
-              define('WP_HOME', 'http://' . $_SERVER['HTTP_HOST']);
-              define('WP_SITEURL', 'http://' . $_SERVER['HTTP_HOST']);
-            EOT
-          }
-          env {
-            name = "APACHE_SERVER_NAME"
-            value = "wordpress"
-          }
+#           env {
+#             name = "WORDPRESS_DB_NAME"
+#             value_from {
+#               secret_key_ref {
+#                 name = kubernetes_secret.db_credentials.metadata[0].name
+#                 key  = "DB_NAME"
+#               }
+#             }
+#           }
+#           env {
+#             name = "WORDPRESS_CONFIG_EXTRA"
+#             value = <<-EOT
+#               define('WP_HOME', 'http://' . $_SERVER['HTTP_HOST']);
+#               define('WP_SITEURL', 'http://' . $_SERVER['HTTP_HOST']);
+#             EOT
+#           }
+#           env {
+#             name = "APACHE_SERVER_NAME"
+#             value = "wordpress"
+#           }
 
-          port {
-            container_port = 80
-          }
+#           port {
+#             container_port = 80
+#           }
 
-          volume_mount {
-            name       = "wordpress-persistent-storage"
-            mount_path = "/var/www/html"
-          }
+#           volume_mount {
+#             name       = "wordpress-persistent-storage"
+#             mount_path = "/var/www/html"
+#           }
 
-          resources {
-            limits = {
-              cpu    = "500m"
-              memory = "512Mi"
-            }
-            requests = {
-              cpu    = "250m"
-              memory = "256Mi"
-            }
-          }
+#           resources {
+#             limits = {
+#               cpu    = "500m"
+#               memory = "512Mi"
+#             }
+#             requests = {
+#               cpu    = "250m"
+#               memory = "256Mi"
+#             }
+#           }
 
-   readiness_probe {
-  http_get {
-    path = "/"
-    port = 80
-  }
-  initial_delay_seconds = 30
-  timeout_seconds      = 5
-  period_seconds      = 10
-}
+#           readiness_probe {
+#             http_get {
+#               path = "/"
+#               port = 80
+#             }
+#             initial_delay_seconds = 30
+#             timeout_seconds      = 5
+#             period_seconds      = 10
+#           }
 
-liveness_probe {
-  http_get {
-    path = "/"
-    port = 80
-  }
-  initial_delay_seconds = 60
-  timeout_seconds      = 5
-  period_seconds      = 15
-}
-        }
+#           liveness_probe {
+#             http_get {
+#               path = "/"
+#               port = 80
+#             }
+#             initial_delay_seconds = 60
+#             timeout_seconds      = 5
+#             period_seconds      = 15
+#           }
+#         }
 
-        volume {
-          name = "wordpress-persistent-storage"
-          persistent_volume_claim {
-            claim_name = kubernetes_persistent_volume_claim.wordpress_shared.metadata[0].name
-          }
-        }
-      }
-    }
-  }
-  depends_on = [ kubernetes_persistent_volume_claim.wordpress_shared ]
-}
+#         volume {
+#           name = "wordpress-persistent-storage"
+#           persistent_volume_claim {
+#             claim_name = kubernetes_persistent_volume_claim.wordpress_shared.metadata[0].name
+#           }
+#         }
+#       }
+#     }
+#   }
+#   depends_on = [ kubernetes_persistent_volume_claim.wordpress_shared ]
+# }
 resource "kubernetes_service" "wordpress" {
   metadata {
     name      = "wordpress-service"

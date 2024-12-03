@@ -127,3 +127,14 @@ output "wordpress_ingress_backend_service_name" {
   description = "Default backend service used by the Ingress."
   value       = kubernetes_ingress_v1.wordpress_ingress.spec[0].default_backend[0].service[0].name
 }
+
+# ------------------------------------------------------------------------
+
+output "db_secret_name" {
+  value = kubernetes_secret.db_credentials.metadata[0].name
+}
+
+output "db_secret_namespace" {
+  value = kubernetes_secret.db_credentials.metadata[0].namespace
+}
+

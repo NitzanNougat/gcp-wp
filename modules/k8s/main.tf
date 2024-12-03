@@ -262,13 +262,13 @@ resource "kubernetes_deployment" "wordpress" {
               }
             }
           }
-          env {
-  name = "WORDPRESS_CONFIG_EXTRA"
-  value = <<-EOT
-    define('WP_HOME', 'http://' . $_SERVER['HTTP_HOST']);
-    define('WP_SITEURL', 'http://' . $_SERVER['HTTP_HOST']);
-  EOT
-}
+          # env {
+          #   name = "WORDPRESS_CONFIG_EXTRA"
+          #   value = <<-EOT
+          #     define('WP_HOME', 'http://' . $_SERVER['HTTP_HOST']);
+          #     define('WP_SITEURL', 'http://' . $_SERVER['HTTP_HOST']);
+          #   EOT
+          # }
 
           port {
             container_port = 80

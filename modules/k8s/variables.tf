@@ -103,7 +103,7 @@ variable "wordpress_db_user" {
 variable "wordpress_db_password" {
   description = "Password for the database user (Sensitive)."
   type        = string
-  sensitive = true
+  sensitive   = true
 }
 
 variable "wordpress_db_connection_name" {

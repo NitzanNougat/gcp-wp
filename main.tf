@@ -1,5 +1,5 @@
 module "gcp_infrastructure" {
-  source      = "./modules/gcp"
+  source = "./modules/gcp"
   # General Configuration
   project_id = var.project_id
   region     = var.region
@@ -11,9 +11,9 @@ module "gcp_infrastructure" {
   tags = var.tags
 
   # VPC and Subnet Configuration
-  vpc_cidr           = var.vpc_cidr
+  vpc_cidr            = var.vpc_cidr
   subnet_cidr_cluster = var.subnet_cidr_cluster
-  cidr_range_sql     = var.cidr_range_sql
+  cidr_range_sql      = var.cidr_range_sql
 
   # GKE Node Pool Configuration
   machine_type   = var.machine_type
@@ -63,6 +63,6 @@ module "k8s_deployment" {
   wordpress_db_name            = module.gcp_infrastructure.wordpress_db_name
 
   # Global IP Configuration (from GCP module outputs)
-  wordpress_ip_address       = module.gcp_infrastructure.wordpress_ip_address
-  wordpress_ip_address_name  = module.gcp_infrastructure.wordpress_ip_address_name
+  wordpress_ip_address      = module.gcp_infrastructure.wordpress_ip_address
+  wordpress_ip_address_name = module.gcp_infrastructure.wordpress_ip_address_name
 }

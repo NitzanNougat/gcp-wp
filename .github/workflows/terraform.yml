@@ -61,7 +61,13 @@ jobs:
         run: terraform validate
 
 
-      - name: Terraform Apply
+      - name: Terraform Apply GCP
         working-directory: .
         timeout-minutes: 60
         run: terraform apply -target=module.gcp_infrastructure -auto-approve
+
+      - name: Terraform Apply K8S
+        working-directory: .
+        timeout-minutes: 30
+        run: terraform apply -target=module.k8s_deployment -auto-approve
+

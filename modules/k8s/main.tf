@@ -271,7 +271,7 @@ resource "kubernetes_deployment" "wordpress" {
           }
           env {
             name = "APACHE_SERVER_NAME"
-            value = "wordpress"
+            value = var.wordpress_ip_address
           }
 
           port {

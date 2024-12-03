@@ -352,25 +352,25 @@ resource "kubernetes_service" "wordpress" {
 }
 
 # Horizontal Pod Autoscaler for WordPress
-resource "kubernetes_horizontal_pod_autoscaler" "wordpress_hpa" {
-  metadata {
-    name      = "wordpress-hpa"
-    namespace = kubernetes_namespace.wordpress.metadata[0].name
-  }
+# resource "kubernetes_horizontal_pod_autoscaler" "wordpress_hpa" {
+#   metadata {
+#     name      = "wordpress-hpa"
+#     namespace = kubernetes_namespace.wordpress.metadata[0].name
+#   }
 
-  spec {
-    scale_target_ref {
-      api_version = "apps/v1"
-      kind        = "Deployment"
-      name        = kubernetes_deployment.wordpress.metadata[0].name
-    }
+#   spec {
+#     scale_target_ref {
+#       api_version = "apps/v1"
+#       kind        = "Deployment"
+#       name        = kubernetes_deployment.wordpress.metadata[0].name
+#     }
 
-    min_replicas = var.hpa_min_replicas
-    max_replicas = var.hpa_max_replicas
+#     min_replicas = var.hpa_min_replicas
+#     max_replicas = var.hpa_max_replicas
 
-    target_cpu_utilization_percentage = var.hpa_cpu_utilization
-  }
-}
+#     target_cpu_utilization_percentage = var.hpa_cpu_utilization
+#   }
+# }
 
 
 

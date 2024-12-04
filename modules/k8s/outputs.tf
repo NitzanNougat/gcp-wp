@@ -65,7 +65,7 @@ output "wordpress_pv_name" {
 # Capacity of the Persistent Volume
 output "wordpress_pv_capacity" {
   description = "Capacity of the Persistent Volume."
-  value       = kubernetes_persistent_volume.wordpress_shared.spec[0].capacity["storage"]
+  value       = kubernetes_persistent_volume.wordpress_shared.spec
 }
 
 ## Persistent Volume Claim Outputs
@@ -129,12 +129,4 @@ output "wordpress_ingress_backend_service_name" {
 }
 
 # ------------------------------------------------------------------------
-
-output "db_secret_name" {
-  value = kubernetes_secret.db_credentials.metadata[0].name
-}
-
-output "db_secret_namespace" {
-  value = kubernetes_secret.db_credentials.metadata[0].namespace
-}
 

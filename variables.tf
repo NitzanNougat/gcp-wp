@@ -105,6 +105,12 @@ variable "alert_email" {
   type        = string
 }
 
+variable "db_delete_protection" {
+  description = "True for db instance to have delete protection"
+  type        = bool
+  default     = true
+}
+
 # =========================================
 # Kubernetes-Specific Variables
 # =========================================
@@ -167,3 +173,8 @@ variable "pvc_storage_size" {
   default     = "20Gi"
 }
 
+variable "cluster_delete_protection" {
+  description = "True for cluster to have delete protection"
+  type        = bool
+  default     = true
+}

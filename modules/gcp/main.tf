@@ -160,7 +160,13 @@ resource "google_container_cluster" "primary" {
   # Logging and Monitoring
   logging_service    = "logging.googleapis.com/kubernetes"
   monitoring_service = "monitoring.googleapis.com/kubernetes"
+
+  
+  deletion_protection = var.cluster_delete_protection
 }
+
+
+
 
 # Create a node pool with autoscaling
 resource "google_container_node_pool" "primary_nodes" {
@@ -184,7 +190,9 @@ resource "google_container_node_pool" "primary_nodes" {
     disk_type    = var.disk_type
     disk_size_gb = var.disk_size_gb
 
+    service_account = google_service_account.gke_nodes.email
   }
+
 }
 
 # Service Account for GKE Nodes
@@ -276,8 +284,7 @@ resource "google_sql_database_instance" "mysql_instance" {
 
   }
 
-  # Until I finsish
-  deletion_protection = false
+  deletion_protection = var.db_delete_protection
   depends_on          = [google_service_networking_connection.private_vpc_connection]
 }
 

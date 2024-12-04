@@ -21,10 +21,12 @@ module "gcp_infrastructure" {
   disk_size_gb   = var.disk_size_gb
   min_node_count = var.min_node_count
   max_node_count = var.max_node_count
+  cluster_delete_protection = var.cluster_delete_protection
 
   # Database Configuration
   db_tier    = var.db_tier
   db_version = var.db_version
+  db_delete_protection = var.db_delete_protection
 }
 
 # K8s Module
@@ -61,6 +63,7 @@ module "k8s_deployment" {
   wordpress_db_connection_name = module.gcp_infrastructure.db_connection_name
   wordpress_db_ip              = module.gcp_infrastructure.db_ip
   wordpress_db_name            = module.gcp_infrastructure.wordpress_db_name
+
 
   # Global IP Configuration (from GCP module outputs)
   wordpress_ip_address      = module.gcp_infrastructure.wordpress_ip_address

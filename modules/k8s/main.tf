@@ -376,7 +376,6 @@ resource "kubernetes_horizontal_pod_autoscaler" "wordpress_hpa" {
 
 # # TLS------------------------------
 # Generate a private key
-# Generate a private key
 resource "tls_private_key" "selfsigned" {
   algorithm = "RSA"
   rsa_bits  = 2048
@@ -426,19 +425,19 @@ resource "kubernetes_ingress_v1" "wordpress_ingress" {
       "kubernetes.io/ingress.allow-http"            = "true"
       "nginx.ingress.kubernetes.io/cors-allow-origin" = "*"
       "nginx.ingress.kubernetes.io/enable-cors" = "true"
-      "ingress.gcp.kubernetes.io/v1beta1.BackendConfig" = jsonencode({
-        default = {
-          healthCheck = {
-            checkIntervalSec = 15
-            timeoutSec = 5
-            healthyThreshold = 1
-            unhealthyThreshold = 2
-            type = "HTTP"
-            requestPath = "/"
-            port = 80
-          }
-        }
-      })
+      # "ingress.gcp.kubernetes.io/v1beta1.BackendConfig" = jsonencode({
+      #   default = {
+      #     healthCheck = {
+      #       checkIntervalSec = 15
+      #       timeoutSec = 5
+      #       healthyThreshold = 1
+      #       unhealthyThreshold = 2
+      #       type = "HTTP"
+      #       requestPath = "/"
+      #       port = 80
+      #     }
+      #   }
+      # })
     }
   }
 

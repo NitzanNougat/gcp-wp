@@ -88,6 +88,12 @@ variable "max_node_count" {
   default     = 3
 }
 
+variable "cluster_delete_protection" {
+  description = "True for cluster to have delete protection"
+  type        = bool
+  default     = true
+}
+
 # Database Configuration
 variable "db_tier" {
   description = "The tier (machine type) for the Cloud SQL instance."
@@ -99,5 +105,11 @@ variable "db_version" {
   description = "The database version for the Cloud SQL instance."
   type        = string
   default     = "MYSQL_8_0"
+}
+
+variable "db_delete_protection" {
+  description = "True for db instance to have delete protection"
+  type        = bool
+  default     = true
 }
 

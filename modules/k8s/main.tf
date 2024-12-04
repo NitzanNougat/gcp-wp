@@ -3,6 +3,7 @@
 #----------------------------------------
 # Kubernetes ----------------------------
 #-----------------------------------------
+# ./modules/k8s/main.tf
 
 # NFS Server Deployment
 resource "kubernetes_deployment" "nfs_server" {

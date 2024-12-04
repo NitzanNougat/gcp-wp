@@ -1,7 +1,7 @@
 # =========================================
 # Shared Variables
 # =========================================
-
+# variables.tf
 # Project and Region Configuration
 variable "project_id" {
   description = "GCP project ID where resources will be created."

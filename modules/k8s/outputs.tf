@@ -3,7 +3,7 @@
 # =========================================
 # Kubernetes Outputs
 # =========================================
-
+# ./modules/k8s/outputs.tf
 ## WordPress Application Outputs
 
 # URL for accessing the WordPress application

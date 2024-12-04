@@ -1,3 +1,4 @@
+# main.tf
 module "gcp_infrastructure" {
   source = "./modules/gcp"
   # General Configuration

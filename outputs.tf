@@ -1,4 +1,4 @@
-# outputs.tf
-output "wordpress_db_name" {
-  value = module.gcp_infrastructure.wordpress_db_name
+output "wordpress_url" {
+  description = "URL for the WordPress website."
+  value       = module.k8s_deployment.wordpress_url
 }

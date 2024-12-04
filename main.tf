@@ -28,6 +28,7 @@ module "gcp_infrastructure" {
   db_tier              = var.db_tier
   db_version           = var.db_version
   db_delete_protection = var.db_delete_protection
+  db_general_log       = var.db_general_log
 }
 
 # K8s Module

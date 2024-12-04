@@ -113,3 +113,13 @@ variable "db_delete_protection" {
   default     = true
 }
 
+variable "db_general_log" {
+  description = "Controls MySQL general query logging. Warning: Enabling in production may impact performance. Values: 'on' or 'off'"
+  type        = string
+  default     = "off"
+
+  validation {
+    condition     = contains(["on", "off"], lower(var.db_general_log))
+    error_message = "The db_general_log value must be either 'on' or 'off' (case insensitive)."
+  }
+}

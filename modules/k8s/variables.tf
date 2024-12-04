@@ -138,4 +138,3 @@ variable "wordpress_ip_address_name" {
 
 
 
-

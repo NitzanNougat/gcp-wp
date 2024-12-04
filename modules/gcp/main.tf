@@ -302,6 +302,16 @@ resource "google_sql_database_instance" "mysql_instance" {
       value = "1"
     }
 
+    database_flags {
+      name  = "general_log"
+      value = var.db_general_log   # Logs all queries if on 
+    }
+
+    database_flags {
+      name  = "log_output"
+      value = "FILE"
+    } 
+
   }
 
   deletion_protection = var.db_delete_protection

@@ -17,9 +17,9 @@ locals {
     "monitoring.googleapis.com",
     "servicenetworking.googleapis.com",
     "file.googleapis.com",
-    "cloudtrace.googleapis.com",           
-    "clouderrorreporting.googleapis.com",   
-    "cloudprofiler.googleapis.com",         
+    "cloudtrace.googleapis.com",
+    "clouderrorreporting.googleapis.com",
+    "cloudprofiler.googleapis.com",
   ]
 
   # Firewall tags
@@ -86,7 +86,7 @@ resource "google_compute_firewall" "allow_internal" {
     protocol = "icmp"
   }
 
-  source_ranges = ["10.0.0.0/16"]
+  source_ranges = [var.vpc_cidr]
   target_tags   = ["internal"]
   project       = var.project_id
 }
@@ -152,7 +152,7 @@ resource "google_container_cluster" "primary" {
 
   network    = google_compute_network.vpc_network.name
   subnetwork = google_compute_subnetwork.private_subnet.name
-  
+
 
   remove_default_node_pool = true
   initial_node_count       = 1
@@ -161,7 +161,7 @@ resource "google_container_cluster" "primary" {
   logging_service    = "logging.googleapis.com/kubernetes"
   monitoring_service = "monitoring.googleapis.com/kubernetes"
 
-  
+
   deletion_protection = var.cluster_delete_protection
 }
 
@@ -271,15 +271,35 @@ resource "google_sql_database_instance" "mysql_instance" {
     tier = var.db_tier
 
     backup_configuration {
-      enabled                        = true
-      start_time                     = "03:00"
-      location                       = var.region
+      enabled    = true
+      start_time = "03:00"
+      location   = var.region
     }
 
     # Enable private IP if required
     ip_configuration {
       ipv4_enabled    = false
       private_network = google_compute_network.vpc_network.self_link
+    }
+
+    # Enable Query Insights
+    insights_config {
+      query_insights_enabled  = true
+      query_string_length     = 1024 # Default Maximum length of stored query string
+      record_application_tags = true # Default 
+      record_client_address   = true # Default 
+      query_plans_per_minute  = 5    # Default 
+    }
+
+    # Comprehensive database flags
+    database_flags {
+      name  = "slow_query_log"
+      value = "on"
+    }
+
+    database_flags {
+      name  = "long_query_time"
+      value = "1"
     }
 
   }

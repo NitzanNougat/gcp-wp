@@ -106,7 +106,7 @@ variable "alert_email" {
 }
 
 variable "db_delete_protection" {
-  description = "True for db instance to have delete protection"
+  description = "True for db instance to have delete protection within terraform"
   type        = bool
   default     = true
 }
@@ -174,7 +174,7 @@ variable "pvc_storage_size" {
 }
 
 variable "cluster_delete_protection" {
-  description = "True for cluster to have delete protection"
+  description = "True for cluster to have delete protection within terraform"
   type        = bool
   default     = true
 }

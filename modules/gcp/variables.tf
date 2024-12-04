@@ -89,7 +89,7 @@ variable "max_node_count" {
 }
 
 variable "cluster_delete_protection" {
-  description = "True for cluster to have delete protection"
+  description = "True for cluster to have delete protection within terraform"
   type        = bool
   default     = true
 }

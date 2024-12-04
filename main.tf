@@ -17,16 +17,16 @@ module "gcp_infrastructure" {
   cidr_range_sql      = var.cidr_range_sql
 
   # GKE Node Pool Configuration
-  machine_type   = var.machine_type
-  disk_type      = var.disk_type
-  disk_size_gb   = var.disk_size_gb
-  min_node_count = var.min_node_count
-  max_node_count = var.max_node_count
+  machine_type              = var.machine_type
+  disk_type                 = var.disk_type
+  disk_size_gb              = var.disk_size_gb
+  min_node_count            = var.min_node_count
+  max_node_count            = var.max_node_count
   cluster_delete_protection = var.cluster_delete_protection
 
   # Database Configuration
-  db_tier    = var.db_tier
-  db_version = var.db_version
+  db_tier              = var.db_tier
+  db_version           = var.db_version
   db_delete_protection = var.db_delete_protection
 }
 

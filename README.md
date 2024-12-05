@@ -4,7 +4,7 @@ This project deploys a highly available WordPress installation on Google Cloud P
 
 ## Architecture
 
-![Architecture Diagram](architecture-diagram.png)
+![Architecture Diagram](diagram.md)
 
 The infrastructure consists of:
 - GKE cluster for WordPress hosting

@@ -20,7 +20,7 @@ resource "google_monitoring_alert_policy" "cpu_usage" {
     display_name = "CPU usage above threshold"
 
     condition_threshold {
-      filter = "resource.type = \"k8s_container\" AND resource.labels.namespace_name = \"${var.k8s_namespace}\" AND metric.type = \"kubernetes.io/container/cpu/core_usage_time\""
+      filter = "resource.type = \"k8s_container\" AND resource.labels.namespace_name = \"${var.k8s_namespace}\" AND metric.type = \"kubernetes.io/container/cpu/request_utilization\""
       
       duration        = "60s"
       comparison     = "COMPARISON_GT"

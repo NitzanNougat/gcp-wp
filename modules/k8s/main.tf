@@ -47,7 +47,7 @@ resource "kubernetes_deployment" "nfs_server" {
           }
 
           security_context {
-            privileged = true
+            #privileged = true
           }
 
           volume_mount {

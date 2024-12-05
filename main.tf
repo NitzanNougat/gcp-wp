@@ -71,3 +71,23 @@ module "k8s_deployment" {
   wordpress_ip_address      = module.gcp_infrastructure.wordpress_ip_address
   wordpress_ip_address_name = module.gcp_infrastructure.wordpress_ip_address_name
 }
+
+module "gcp_monitoring" {
+  source = "./modules/monitoring"
+  # General Configuration
+  project_id = var.project_id
+  region     = var.region
+
+  # Resource Naming Prefix
+  prefix = var.prefix
+
+  # Tags
+  tags = var.tags
+
+  alert_email_address = var.alert_email
+
+  k8s_namespace = module.k8s_deployment.kubernetes_namespace
+
+  hpa_cpu_alert_threshold = module.k8s_deployment.wordpress_hpa_target_cpu_utilization + 10
+  
+}

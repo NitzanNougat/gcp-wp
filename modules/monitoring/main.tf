@@ -30,10 +30,6 @@ resource "google_monitoring_alert_policy" "cpu_usage" {
         count = 1
       }
 
-      aggregations {
-        alignment_period   = "60s"
-        per_series_aligner = "ALIGN_RATE"
-      }
     }
   }
 

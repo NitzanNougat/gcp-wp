@@ -53,16 +53,3 @@ The infrastructure consists of:
 └── *.tf            # Root module configuration
 ```
 
-## Contributing
-
-1. Create a feature branch
-2. Make changes
-3. Submit a pull request
-
-## License
-
-MIT
-
-## Support
-
-Open an issue in the repository for any questions or problems.
